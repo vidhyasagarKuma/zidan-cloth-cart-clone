@@ -2,6 +2,7 @@
 import React from 'react';
 import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface CartProps {
   isOpen: boolean;
@@ -10,8 +11,48 @@ interface CartProps {
 
 const Cart = ({ isOpen, onClose }: CartProps) => {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
+  const { toast } = useToast();
 
   if (!isOpen) return null;
+
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      toast({
+        title: "Cart is empty",
+        description: "Please add items to your cart before checkout.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Checkout Successful!",
+      description: `Your order of ₹${getTotalPrice()} has been placed successfully.`,
+    });
+    
+    clearCart();
+    onClose();
+  };
+
+  const handleIncreaseQuantity = (cartItemId: string, currentQuantity: number) => {
+    updateQuantity(cartItemId, currentQuantity + 1);
+  };
+
+  const handleDecreaseQuantity = (cartItemId: string, currentQuantity: number) => {
+    if (currentQuantity > 1) {
+      updateQuantity(cartItemId, currentQuantity - 1);
+    } else {
+      removeFromCart(cartItemId);
+    }
+  };
+
+  const handleRemoveItem = (cartItemId: string) => {
+    removeFromCart(cartItemId);
+    toast({
+      title: "Item removed",
+      description: "Item has been removed from your cart.",
+    });
+  };
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -46,8 +87,8 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                       </div>
                     ) : (
                       <ul className="-my-6 divide-y divide-gray-200">
-                        {cartItems.map((item, index) => (
-                          <li key={`${item.id}-${item.selectedSize}-${item.selectedColor}-${index}`} className="py-6 flex">
+                        {cartItems.map((item) => (
+                          <li key={item.cartItemId} className="py-6 flex">
                             <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
                               <img
                                 src={item.image}
@@ -70,15 +111,15 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                               <div className="flex-1 flex items-end justify-between text-sm">
                                 <div className="flex items-center space-x-2">
                                   <button
-                                    onClick={() => updateQuantity(`${item.id}-${item.selectedSize}-${item.selectedColor}-${index}`, item.quantity - 1)}
-                                    className="p-1 rounded-full border border-gray-300 hover:border-gray-400"
+                                    onClick={() => handleDecreaseQuantity(item.cartItemId, item.quantity)}
+                                    className="p-1 rounded-full border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-colors"
                                   >
                                     <Minus className="w-3 h-3" />
                                   </button>
-                                  <span className="text-gray-500">Qty {item.quantity}</span>
+                                  <span className="text-gray-500 min-w-[60px] text-center">Qty {item.quantity}</span>
                                   <button
-                                    onClick={() => updateQuantity(`${item.id}-${item.selectedSize}-${item.selectedColor}-${index}`, item.quantity + 1)}
-                                    className="p-1 rounded-full border border-gray-300 hover:border-gray-400"
+                                    onClick={() => handleIncreaseQuantity(item.cartItemId, item.quantity)}
+                                    className="p-1 rounded-full border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-colors"
                                   >
                                     <Plus className="w-3 h-3" />
                                   </button>
@@ -86,8 +127,8 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
 
                                 <div className="flex">
                                   <button
-                                    onClick={() => removeFromCart(`${item.id}-${item.selectedSize}-${item.selectedColor}-${index}`)}
-                                    className="font-medium text-red-600 hover:text-red-500"
+                                    onClick={() => handleRemoveItem(item.cartItemId)}
+                                    className="font-medium text-red-600 hover:text-red-500 transition-colors"
                                   >
                                     Remove
                                   </button>
@@ -111,14 +152,23 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                   </div>
                   <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                   <div className="mt-6">
-                    <button className="w-full bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-800">
+                    <button 
+                      onClick={handleCheckout}
+                      className="w-full bg-black border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-800 transition-colors"
+                    >
                       Checkout
                     </button>
                   </div>
                   <div className="mt-3">
                     <button
-                      onClick={clearCart}
-                      className="w-full bg-gray-100 border border-gray-300 rounded-md py-2 px-8 flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200"
+                      onClick={() => {
+                        clearCart();
+                        toast({
+                          title: "Cart cleared",
+                          description: "All items have been removed from your cart.",
+                        });
+                      }}
+                      className="w-full bg-gray-100 border border-gray-300 rounded-md py-2 px-8 flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-200 transition-colors"
                     >
                       Clear Cart
                     </button>
@@ -128,7 +178,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                       or{' '}
                       <button
                         onClick={onClose}
-                        className="text-black font-medium hover:text-gray-800"
+                        className="text-black font-medium hover:text-gray-800 transition-colors"
                       >
                         Continue Shopping<span aria-hidden="true"> &rarr;</span>
                       </button>

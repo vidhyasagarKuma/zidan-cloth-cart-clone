@@ -4,6 +4,7 @@ import { CartProvider } from '@/contexts/CartContext';
 import Header from '@/components/Header';
 import ProductGrid from '@/components/ProductGrid';
 import ProductModal from '@/components/ProductModal';
+import { Toaster } from '@/components/ui/toaster';
 import { Product } from '@/contexts/CartContext';
 import { products } from '@/data/products';
 
@@ -146,6 +147,8 @@ const Index = () => {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
         />
+        
+        <Toaster />
       </div>
     </CartProvider>
   );

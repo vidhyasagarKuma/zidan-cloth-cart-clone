@@ -15,6 +15,7 @@ export interface Product {
 }
 
 export interface CartItem extends Product {
+  cartItemId: string; // Add unique cart item ID
   quantity: number;
   selectedSize: string;
   selectedColor: string;
@@ -23,8 +24,8 @@ export interface CartItem extends Product {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product, size: string, color: string) => void;
-  removeFromCart: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  removeFromCart: (cartItemId: string) => void;
+  updateQuantity: (cartItemId: string, quantity: number) => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
   clearCart: () => void;
@@ -51,29 +52,30 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       if (existingItem) {
         return prev.map(item =>
-          item.id === product.id && item.selectedSize === size && item.selectedColor === color
+          item.cartItemId === existingItem.cartItemId
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
 
-      return [...prev, { ...product, quantity: 1, selectedSize: size, selectedColor: color }];
+      const cartItemId = `${product.id}-${size}-${color}-${Date.now()}`;
+      return [...prev, { ...product, cartItemId, quantity: 1, selectedSize: size, selectedColor: color }];
     });
   };
 
-  const removeFromCart = (id: string) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
+  const removeFromCart = (cartItemId: string) => {
+    setCartItems(prev => prev.filter(item => item.cartItemId !== cartItemId));
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (cartItemId: string, quantity: number) => {
     if (quantity <= 0) {
-      removeFromCart(id);
+      removeFromCart(cartItemId);
       return;
     }
 
     setCartItems(prev =>
       prev.map(item =>
-        item.id === id ? { ...item, quantity } : item
+        item.cartItemId === cartItemId ? { ...item, quantity } : item
       )
     );
   };
