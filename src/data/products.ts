@@ -1,0 +1,197 @@
+
+import { Product } from '@/contexts/CartContext';
+
+export const products: Product[] = [
+  {
+    id: '1',
+    name: 'Classic Cotton T-Shirt',
+    price: 1299,
+    originalPrice: 1699,
+    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80',
+    category: 'T-Shirts',
+    brand: 'Zidan',
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    colors: ['White', 'Black', 'Navy', 'Gray'],
+    description: 'Premium cotton t-shirt with perfect fit and superior comfort. Made from 100% organic cotton.'
+  },
+  {
+    id: '2',
+    name: 'Slim Fit Denim Jeans',
+    price: 3499,
+    originalPrice: 4999,
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80',
+    category: 'Jeans',
+    brand: 'Zidan',
+    sizes: ['28', '30', '32', '34', '36'],
+    colors: ['Blue', 'Black', 'Gray'],
+    description: 'Premium denim jeans with slim fit design. Made from stretch denim for comfort and style.'
+  },
+  {
+    id: '3',
+    name: 'Casual Button Shirt',
+    price: 2299,
+    originalPrice: 2999,
+    image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80',
+    category: 'Shirts',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['White', 'Light Blue', 'Pink', 'Green'],
+    description: 'Versatile button-up shirt perfect for casual and semi-formal occasions.'
+  },
+  {
+    id: '4',
+    name: 'Leather Jacket',
+    price: 8999,
+    originalPrice: 12999,
+    image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&q=80',
+    category: 'Jackets',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Black', 'Brown'],
+    description: 'Genuine leather jacket with premium finish. Perfect for adding edge to your style.'
+  },
+  {
+    id: '5',
+    name: 'Summer Floral Dress',
+    price: 2799,
+    originalPrice: 3999,
+    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&q=80',
+    category: 'Dresses',
+    brand: 'Zidan',
+    sizes: ['XS', 'S', 'M', 'L'],
+    colors: ['Floral Pink', 'Floral Blue', 'Floral Yellow'],
+    description: 'Beautiful floral dress perfect for summer occasions. Light and comfortable fabric.'
+  },
+  {
+    id: '6',
+    name: 'Premium Sneakers',
+    price: 4499,
+    originalPrice: 5999,
+    image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&q=80',
+    category: 'Shoes',
+    brand: 'Zidan',
+    sizes: ['6', '7', '8', '9', '10', '11'],
+    colors: ['White', 'Black', 'Red'],
+    description: 'High-quality sneakers with superior comfort and style. Perfect for everyday wear.'
+  },
+  {
+    id: '7',
+    name: 'Polo Shirt',
+    price: 1899,
+    originalPrice: 2499,
+    image: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500&q=80',
+    category: 'T-Shirts',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Navy', 'White', 'Green', 'Burgundy'],
+    description: 'Classic polo shirt with modern fit. Made from breathable cotton blend.'
+  },
+  {
+    id: '8',
+    name: 'Formal Blazer',
+    price: 6999,
+    originalPrice: 9999,
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80',
+    category: 'Jackets',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['Navy', 'Black', 'Gray'],
+    description: 'Elegant formal blazer perfect for business and special occasions.'
+  },
+  {
+    id: '9',
+    name: 'Cargo Pants',
+    price: 2999,
+    originalPrice: 4299,
+    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500&q=80',
+    category: 'Jeans',
+    brand: 'Zidan',
+    sizes: ['28', '30', '32', '34', '36'],
+    colors: ['Khaki', 'Black', 'Olive'],
+    description: 'Comfortable cargo pants with multiple pockets. Perfect for casual and outdoor activities.'
+  },
+  {
+    id: '10',
+    name: 'Designer Handbag',
+    price: 3299,
+    originalPrice: 4999,
+    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['One Size'],
+    colors: ['Black', 'Brown', 'Tan'],
+    description: 'Elegant designer handbag with premium materials and craftsmanship.'
+  },
+  {
+    id: '11',
+    name: 'Casual Hoodie',
+    price: 2499,
+    originalPrice: 3299,
+    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80',
+    category: 'T-Shirts',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['Gray', 'Black', 'Navy', 'Maroon'],
+    description: 'Comfortable hoodie perfect for casual wear. Made from soft cotton blend.'
+  },
+  {
+    id: '12',
+    name: 'Formal Dress Shirt',
+    price: 2799,
+    originalPrice: 3599,
+    image: 'https://images.unsplash.com/photo-1603252109612-ffd69d3c6c6c?w=500&q=80',
+    category: 'Shirts',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['White', 'Light Blue', 'Gray'],
+    description: 'Premium formal dress shirt with elegant design and comfortable fit.'
+  },
+  {
+    id: '13',
+    name: 'Summer Sandals',
+    price: 1899,
+    originalPrice: 2799,
+    image: 'https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=500&q=80',
+    category: 'Shoes',
+    brand: 'Zidan',
+    sizes: ['6', '7', '8', '9', '10'],
+    colors: ['Brown', 'Black', 'Tan'],
+    description: 'Comfortable summer sandals with premium leather straps and cushioned sole.'
+  },
+  {
+    id: '14',
+    name: 'Elegant Evening Dress',
+    price: 5499,
+    originalPrice: 7999,
+    image: 'https://images.unsplash.com/photo-1566479179817-c4bd5ac80fdb?w=500&q=80',
+    category: 'Dresses',
+    brand: 'Zidan',
+    sizes: ['XS', 'S', 'M', 'L'],
+    colors: ['Black', 'Navy', 'Burgundy'],
+    description: 'Stunning evening dress perfect for special occasions and formal events.'
+  },
+  {
+    id: '15',
+    name: 'Designer Watch',
+    price: 7999,
+    originalPrice: 12999,
+    image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['One Size'],
+    colors: ['Silver', 'Gold', 'Black'],
+    description: 'Luxury designer watch with premium materials and precise movement.'
+  },
+  {
+    id: '16',
+    name: 'Sports Jacket',
+    price: 3999,
+    originalPrice: 5999,
+    image: 'https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=500&q=80',
+    category: 'Jackets',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Black', 'Navy', 'Gray'],
+    description: 'Athletic sports jacket with moisture-wicking fabric and modern design.'
+  }
+];
