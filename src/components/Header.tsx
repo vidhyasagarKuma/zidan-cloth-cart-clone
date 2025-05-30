@@ -1,8 +1,15 @@
 
 import React, { useState } from 'react';
-import { Search, ShoppingBag, Menu, User, Heart } from 'lucide-react';
+import { Search, ShoppingBag, Menu, User, Heart, MapPin } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import Cart from './Cart';
+import Wishlist from './Wishlist';
+import SignInModal from './SignInModal';
+import SignUpModal from './SignUpModal';
+import AddressModal from './AddressModal';
+import { Button } from '@/components/ui/button';
 
 interface HeaderProps {
   onCategoryChange: (category: string) => void;
@@ -11,9 +18,14 @@ interface HeaderProps {
 
 const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
   const { getTotalItems } = useCart();
+  const { user, signOut, openSignIn, addresses } = useAuth();
+  const { wishlistItems } = useWishlist();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   const categories = ['All', 'Shirts', 'T-Shirts', 'Jeans', 'Jackets', 'Dresses', 'Shoes', 'Accessories'];
 
@@ -22,6 +34,8 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
     setSearchQuery(value);
     onSearchChange(value);
   };
+
+  const defaultAddress = addresses.find(addr => addr.isDefault);
 
   return (
     <>
@@ -60,14 +74,78 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
                 />
               </div>
 
-              {/* User */}
-              <button className="text-gray-600 hover:text-black transition-colors">
-                <User className="w-6 h-6" />
-              </button>
+              {/* Address Indicator */}
+              {user && defaultAddress && (
+                <button
+                  onClick={() => setIsAddressModalOpen(true)}
+                  className="hidden md:flex items-center gap-1 text-sm text-gray-600 hover:text-black transition-colors"
+                >
+                  <MapPin className="w-4 h-4" />
+                  <span className="max-w-20 truncate">{defaultAddress.city}</span>
+                </button>
+              )}
+
+              {/* User Menu */}
+              {user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors"
+                  >
+                    <User className="w-6 h-6" />
+                    <span className="hidden md:block text-sm">{user.name}</span>
+                  </button>
+                  {showUserMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+                      <div className="p-2">
+                        <div className="px-3 py-2 text-sm text-gray-500">
+                          {user.email}
+                        </div>
+                        <button
+                          onClick={() => {
+                            setIsAddressModalOpen(true);
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded"
+                        >
+                          Manage Addresses
+                        </button>
+                        <button
+                          onClick={() => {
+                            signOut();
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100 rounded text-red-600"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Button
+                  onClick={openSignIn}
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-600 hover:text-black"
+                >
+                  <User className="w-6 h-6" />
+                  <span className="hidden md:block ml-1">Sign In</span>
+                </Button>
+              )}
 
               {/* Wishlist */}
-              <button className="text-gray-600 hover:text-black transition-colors">
+              <button
+                onClick={() => setIsWishlistOpen(true)}
+                className="relative text-gray-600 hover:text-black transition-colors"
+              >
                 <Heart className="w-6 h-6" />
+                {wishlistItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {wishlistItems.length}
+                  </span>
+                )}
               </button>
 
               {/* Cart */}
@@ -130,6 +208,13 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
       </header>
 
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Wishlist isOpen={isWishlistOpen} onClose={() => setIsWishlistOpen(false)} />
+      <SignInModal />
+      <SignUpModal />
+      <AddressModal 
+        isOpen={isAddressModalOpen} 
+        onClose={() => setIsAddressModalOpen(false)} 
+      />
     </>
   );
 };
