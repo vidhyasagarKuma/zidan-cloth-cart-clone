@@ -35,6 +35,11 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
     onSearchChange(value);
   };
 
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    onSearchChange('');
+  };
+
   const defaultAddress = addresses.find(addr => addr.isDefault);
 
   return (
@@ -70,8 +75,16 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
                   placeholder="Search products..."
                   value={searchQuery}
                   onChange={handleSearch}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  className="pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent w-64"
                 />
+                {searchQuery && (
+                  <button
+                    onClick={handleClearSearch}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    ×
+                  </button>
+                )}
               </div>
 
               {/* Address Indicator */}
@@ -180,8 +193,16 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={handleSearch}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
               />
+              {searchQuery && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  ×
+                </button>
+              )}
             </div>
           </div>
 

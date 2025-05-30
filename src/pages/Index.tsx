@@ -19,9 +19,12 @@ const Index = () => {
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
       const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           product.category.toLowerCase().includes(searchQuery.toLowerCase());
+      const searchLower = searchQuery.toLowerCase();
+      const matchesSearch = searchQuery === '' || 
+                           product.name.toLowerCase().includes(searchLower) ||
+                           product.brand.toLowerCase().includes(searchLower) ||
+                           product.category.toLowerCase().includes(searchLower) ||
+                           product.description.toLowerCase().includes(searchLower);
       
       return matchesCategory && matchesSearch;
     });
@@ -37,6 +40,11 @@ const Index = () => {
     setSelectedProduct(null);
   };
 
+  const handleSearchChange = (search: string) => {
+    console.log('Search query changed to:', search);
+    setSearchQuery(search);
+  };
+
   return (
     <AuthProvider>
       <WishlistProvider>
@@ -44,7 +52,7 @@ const Index = () => {
           <div className="min-h-screen bg-gray-50">
             <Header 
               onCategoryChange={setSelectedCategory}
-              onSearchChange={setSearchQuery}
+              onSearchChange={handleSearchChange}
             />
             
             {/* Hero Section */}
@@ -69,7 +77,7 @@ const Index = () => {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 sm:mb-0">
-                  {selectedCategory === 'All' ? 'All Products' : selectedCategory}
+                  {searchQuery ? `Search results for "${searchQuery}"` : selectedCategory === 'All' ? 'All Products' : selectedCategory}
                 </h2>
                 <p className="text-gray-600">
                   {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
