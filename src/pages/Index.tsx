@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { WishlistProvider } from '@/contexts/WishlistProvider';
+import { WishlistProvider } from '@/contexts/WishlistContext';
 import Header from '@/components/Header';
 import ProductGrid from '@/components/ProductGrid';
 import ProductModal from '@/components/ProductModal';
