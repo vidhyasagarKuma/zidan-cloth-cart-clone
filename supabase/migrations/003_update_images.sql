@@ -1,17 +1,8 @@
 
--- Create storage bucket for product images
-INSERT INTO storage.buckets (id, name, public) VALUES ('product-images', 'product-images', true);
-
--- Allow public access to product images
-CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'product-images');
-
--- Allow authenticated users to upload images
-CREATE POLICY "Allow uploads" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'product-images' AND auth.role() = 'authenticated');
-
--- Update products table to use image_id instead of direct URLs
+-- Update products table to use image_id for local images
 ALTER TABLE products ADD COLUMN image_id TEXT;
 
--- Update existing products with image IDs (these would correspond to uploaded images in storage)
+-- Update existing products with local image file names
 UPDATE products SET image_id = 'tshirt-cotton-classic.jpg' WHERE id = (SELECT id FROM products WHERE name = 'Classic Cotton T-Shirt' LIMIT 1);
 UPDATE products SET image_id = 'jeans-slim-denim.jpg' WHERE id = (SELECT id FROM products WHERE name = 'Slim Fit Denim Jeans' LIMIT 1);
 UPDATE products SET image_id = 'shirt-casual-button.jpg' WHERE id = (SELECT id FROM products WHERE name = 'Casual Button Shirt' LIMIT 1);
