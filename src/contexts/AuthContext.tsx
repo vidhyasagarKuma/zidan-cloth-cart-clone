@@ -59,6 +59,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if Supabase is available
+    if (!supabase) {
+      console.warn('Supabase not available. Authentication features will be disabled.');
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
@@ -94,6 +101,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const fetchAddresses = async () => {
+    if (!supabase) return;
+
     const { data, error } = await supabase
       .from('addresses')
       .select('*')
@@ -120,12 +129,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) {
+      throw new Error('Supabase not available');
+    }
+    
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     setIsSignInOpen(false);
   };
 
   const signUp = async (name: string, email: string, password: string) => {
+    if (!supabase) {
+      throw new Error('Supabase not available');
+    }
+    
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -138,13 +155,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signOut = async () => {
+    if (!supabase) return;
+    
     await supabase.auth.signOut();
     setUser(null);
     setAddresses([]);
   };
 
   const addAddress = async (addressData: Omit<Address, 'id'>) => {
-    if (!user) return;
+    if (!user || !supabase) return;
 
     // If this is the first address or marked as default, set all others to non-default
     if (addressData.isDefault || addresses.length === 0) {
@@ -173,7 +192,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateAddress = async (id: string, addressData: Partial<Address>) => {
-    if (!user) return;
+    if (!user || !supabase) return;
 
     const updateData: any = {};
     if (addressData.name) updateData.name = addressData.name;
@@ -204,7 +223,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deleteAddress = async (id: string) => {
-    if (!user) return;
+    if (!user || !supabase) return;
 
     const { error } = await supabase
       .from('addresses')
@@ -217,7 +236,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const setDefaultAddress = async (id: string) => {
-    if (!user) return;
+    if (!user || !supabase) return;
 
     // Unset all addresses as default
     await supabase
