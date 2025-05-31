@@ -26,10 +26,20 @@ const SignInModal = () => {
       });
       setEmail('');
       setPassword('');
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Sign in error:', error);
+      
+      let errorMessage = 'Invalid email or password.';
+      
+      if (error?.message?.includes('Email not confirmed')) {
+        errorMessage = 'Please check your email and click the confirmation link before signing in.';
+      } else if (error?.message?.includes('Invalid login credentials')) {
+        errorMessage = 'Invalid email or password. Please check your credentials.';
+      }
+      
       toast({
-        title: 'Error',
-        description: 'Invalid email or password.',
+        title: 'Sign In Failed',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {

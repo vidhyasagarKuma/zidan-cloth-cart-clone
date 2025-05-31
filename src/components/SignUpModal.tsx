@@ -28,22 +28,41 @@ const SignUpModal = () => {
       return;
     }
 
+    if (password.length < 6) {
+      toast({
+        title: 'Error',
+        description: 'Password must be at least 6 characters long.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       await signUp(name, email, password);
       toast({
-        title: 'Welcome to Zidan!',
-        description: 'Your account has been created successfully.',
+        title: 'Account Created!',
+        description: 'Please check your email for a confirmation link to complete your registration.',
       });
       setName('');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Sign up error:', error);
+      
+      let errorMessage = 'Failed to create account. Please try again.';
+      
+      if (error?.message?.includes('already registered')) {
+        errorMessage = 'An account with this email already exists. Please sign in instead.';
+      } else if (error?.message?.includes('weak password')) {
+        errorMessage = 'Password is too weak. Please choose a stronger password.';
+      }
+      
       toast({
-        title: 'Error',
-        description: 'Failed to create account. Please try again.',
+        title: 'Sign Up Failed',
+        description: errorMessage,
         variant: 'destructive',
       });
     } finally {
@@ -92,8 +111,9 @@ const SignUpModal = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a password"
+              placeholder="Create a password (min 6 characters)"
               required
+              minLength={6}
             />
           </div>
           <div>
