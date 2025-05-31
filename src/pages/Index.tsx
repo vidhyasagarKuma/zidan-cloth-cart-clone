@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -12,6 +11,13 @@ import { useProducts } from '@/hooks/useProducts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sparkles, ArrowRight, Star, Shield, Truck, HeartHandshake } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -50,6 +56,25 @@ const Index = () => {
     console.log('Search query changed to:', search);
     setSearchQuery(search);
   };
+
+  // Hero carousel images
+  const heroImages = [
+    {
+      url: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2070&q=80",
+      title: "Premium Fashion",
+      subtitle: "Curated for Excellence"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=2071&q=80",
+      title: "Modern Style",
+      subtitle: "Timeless Elegance"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=2070&q=80",
+      title: "Urban Collection",
+      subtitle: "Contemporary Design"
+    }
+  ];
 
   if (isLoading) {
     return (
@@ -113,63 +138,84 @@ const Index = () => {
               onSearchChange={handleSearchChange}
             />
             
-            {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="w-full h-full bg-repeat" style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-                }}></div>
-              </div>
-              <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
-                <div className="text-center space-y-8">
-                  <div className="space-y-4">
-                    <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                      <Sparkles className="h-4 w-4 text-yellow-400" />
-                      <span className="text-sm font-medium">Premium Fashion Collection</span>
-                    </div>
-                    <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight">
-                      <span className="block">Welcome to</span>
-                      <span className="block bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-                        ZIDAN
-                      </span>
-                    </h1>
-                    <p className="max-w-2xl mx-auto text-xl sm:text-2xl text-gray-300 leading-relaxed">
-                      Discover premium fashion that defines your style. 
-                      <span className="block mt-2 text-lg opacity-90">Curated collections for the modern individual.</span>
-                    </p>
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Button 
-                      onClick={() => setSelectedCategory('All')}
-                      size="lg"
-                      className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-full font-medium text-lg group"
-                    >
-                      Explore Collection
-                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                    <Button 
-                      variant="outline"
-                      size="lg"
-                      className="border-white text-white hover:bg-white hover:text-black px-8 py-4 rounded-full font-medium text-lg"
-                    >
-                      View Lookbook
-                    </Button>
-                  </div>
+            {/* Hero Section with Carousel */}
+            <section className="relative overflow-hidden">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {heroImages.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <div className="relative h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
+                        <div 
+                          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+                          style={{ backgroundImage: `url(${image.url})` }}
+                        />
+                        <div className="absolute inset-0 bg-black/40" />
+                        
+                        <div className="relative z-10 flex items-center justify-center h-full">
+                          <div className="text-center text-white space-y-8 max-w-4xl mx-auto px-4">
+                            <div className="space-y-4">
+                              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                                <Sparkles className="h-4 w-4 text-yellow-400" />
+                                <span className="text-sm font-medium">Premium Fashion Collection</span>
+                              </div>
+                              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight">
+                                <span className="block">Welcome to</span>
+                                <span className="block bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+                                  ZIDAN
+                                </span>
+                              </h1>
+                              <div className="space-y-2">
+                                <p className="text-2xl sm:text-3xl font-semibold text-yellow-400">
+                                  {image.title}
+                                </p>
+                                <p className="text-lg sm:text-xl text-gray-300">
+                                  {image.subtitle}
+                                </p>
+                              </div>
+                              <p className="max-w-2xl mx-auto text-xl sm:text-2xl text-gray-300 leading-relaxed">
+                                Discover premium fashion that defines your style. 
+                                <span className="block mt-2 text-lg opacity-90">Curated collections for the modern individual.</span>
+                              </p>
+                            </div>
+                            
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                              <Button 
+                                onClick={() => setSelectedCategory('All')}
+                                size="lg"
+                                className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-full font-medium text-lg group"
+                              >
+                                Explore Collection
+                                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                              </Button>
+                              <Button 
+                                variant="outline"
+                                size="lg"
+                                className="border-white text-white hover:bg-white hover:text-black px-8 py-4 rounded-full font-medium text-lg"
+                              >
+                                View Lookbook
+                              </Button>
+                            </div>
 
-                  {!isUsingDatabase && (
-                    <div className="inline-flex items-center space-x-2 bg-yellow-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-yellow-500/30">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="text-sm font-medium text-yellow-200">Demo Mode - Sample Data</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              {/* Decorative Elements */}
-              <div className="absolute top-20 left-10 w-20 h-20 border border-white/20 rounded-full animate-pulse"></div>
-              <div className="absolute bottom-20 right-10 w-32 h-32 border border-white/10 rounded-full animate-pulse delay-1000"></div>
-              <div className="absolute top-1/2 left-20 w-2 h-2 bg-white/40 rounded-full animate-ping delay-500"></div>
+                            {!isUsingDatabase && (
+                              <div className="inline-flex items-center space-x-2 bg-yellow-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-yellow-500/30">
+                                <Star className="h-4 w-4 text-yellow-400" />
+                                <span className="text-sm font-medium text-yellow-200">Demo Mode - Sample Data</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Decorative Elements */}
+                        <div className="absolute top-20 left-10 w-20 h-20 border border-white/20 rounded-full animate-pulse"></div>
+                        <div className="absolute bottom-20 right-10 w-32 h-32 border border-white/10 rounded-full animate-pulse delay-1000"></div>
+                        <div className="absolute top-1/2 left-20 w-2 h-2 bg-white/40 rounded-full animate-ping delay-500"></div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-8 bg-white/20 border-white/30 text-white hover:bg-white/30" />
+                <CarouselNext className="right-8 bg-white/20 border-white/30 text-white hover:bg-white/30" />
+              </Carousel>
             </section>
 
             {/* Features Section */}
