@@ -8,13 +8,15 @@ import ProductGrid from '@/components/ProductGrid';
 import ProductModal from '@/components/ProductModal';
 import { Toaster } from '@/components/ui/toaster';
 import { Product } from '@/contexts/CartContext';
-import { products } from '@/data/products';
+import { useProducts } from '@/hooks/useProducts';
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { products, isLoading, error, isUsingDatabase } = useProducts();
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -28,7 +30,7 @@ const Index = () => {
       
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [products, selectedCategory, searchQuery]);
 
   const handleViewDetails = (product: Product) => {
     setSelectedProduct(product);
@@ -44,6 +46,45 @@ const Index = () => {
     console.log('Search query changed to:', search);
     setSearchQuery(search);
   };
+
+  if (isLoading) {
+    return (
+      <AuthProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading products...</p>
+              </div>
+            </div>
+          </CartProvider>
+        </WishlistProvider>
+      </AuthProvider>
+    );
+  }
+
+  if (error) {
+    return (
+      <AuthProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-red-600 mb-4">Error loading products: {error.message}</p>
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          </CartProvider>
+        </WishlistProvider>
+      </AuthProvider>
+    );
+  }
 
   return (
     <AuthProvider>
@@ -70,6 +111,11 @@ const Index = () => {
                 >
                   Shop Now
                 </button>
+                {!isUsingDatabase && (
+                  <div className="mt-4 text-sm text-yellow-300">
+                    Running in demo mode with sample data
+                  </div>
+                )}
               </div>
             </section>
 
