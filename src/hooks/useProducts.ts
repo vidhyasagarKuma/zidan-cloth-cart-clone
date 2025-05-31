@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, DatabaseProduct } from '@/lib/supabase';
+import { supabase, DatabaseProduct, getImageUrl } from '@/lib/supabase';
 import { Product } from '@/contexts/CartContext';
 
 const transformDatabaseProduct = (dbProduct: DatabaseProduct): Product => ({
@@ -9,7 +9,7 @@ const transformDatabaseProduct = (dbProduct: DatabaseProduct): Product => ({
   name: dbProduct.name,
   price: dbProduct.price,
   originalPrice: dbProduct.original_price,
-  image: dbProduct.image,
+  image: dbProduct.image_id ? getImageUrl(dbProduct.image_id) : dbProduct.image,
   category: dbProduct.category,
   brand: dbProduct.brand,
   sizes: dbProduct.sizes,

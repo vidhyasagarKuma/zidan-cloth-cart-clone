@@ -19,6 +19,20 @@ export const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+// Helper function to get image URL from Supabase storage
+export const getImageUrl = (imageId: string): string => {
+  if (!supabase || !imageId) {
+    // Fallback to placeholder image if Supabase is not available
+    return `https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80`;
+  }
+  
+  const { data } = supabase.storage
+    .from('product-images')
+    .getPublicUrl(imageId);
+  
+  return data.publicUrl;
+};
+
 // Database types
 export interface DatabaseProduct {
   id: string;
@@ -26,6 +40,7 @@ export interface DatabaseProduct {
   price: number;
   original_price?: number;
   image: string;
+  image_id?: string;
   category: string;
   brand: string;
   sizes: string[];
