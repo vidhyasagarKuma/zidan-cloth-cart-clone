@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { Product, useCart } from '@/contexts/CartContext';
@@ -31,6 +30,41 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
     onClose();
   };
 
+  // Function to get image based on selected color
+  const getColorBasedImage = () => {
+    if (!selectedColor) return product.image;
+    
+    // Create color-specific image URLs based on product image and selected color
+    const baseImageName = product.image.split('/').pop()?.split('.')[0] || 'default';
+    const colorMap: { [key: string]: string } = {
+      'White': 'white',
+      'Black': 'black', 
+      'Navy': 'navy',
+      'Gray': 'gray',
+      'Blue': 'blue',
+      'Red': 'red',
+      'Green': 'green',
+      'Pink': 'pink',
+      'Light Blue': 'lightblue',
+      'Brown': 'brown',
+      'Tan': 'tan',
+      'Khaki': 'khaki',
+      'Olive': 'olive',
+      'Maroon': 'maroon',
+      'Burgundy': 'burgundy',
+      'Silver': 'silver',
+      'Gold': 'gold',
+      'Floral Pink': 'floral-pink',
+      'Floral Blue': 'floral-blue', 
+      'Floral Yellow': 'floral-yellow'
+    };
+    
+    const colorSuffix = colorMap[selectedColor] || selectedColor.toLowerCase().replace(' ', '-');
+    
+    // Try to load color-specific image, fallback to original if not available
+    return `/images/${baseImageName}-${colorSuffix}.jpg` || product.image;
+  };
+
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
@@ -45,9 +79,14 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
             {/* Product Image */}
             <div className="flex-1 aspect-square">
               <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
+                src={getColorBasedImage()}
+                alt={`${product.name} in ${selectedColor || 'default color'}`}
+                className="w-full h-full object-cover transition-all duration-300"
+                onError={(e) => {
+                  // Fallback to original image if color-specific image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.src = product.image;
+                }}
               />
             </div>
 
