@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { Product, useCart } from '@/contexts/CartContext';
@@ -36,33 +37,40 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
     
     // Create color-specific image URLs based on product image and selected color
     const baseImageName = product.image.split('/').pop()?.split('.')[0] || 'default';
-    const colorMap: { [key: string]: string } = {
-      'White': 'white',
-      'Black': 'black', 
-      'Navy': 'navy',
-      'Gray': 'gray',
-      'Blue': 'blue',
-      'Red': 'red',
-      'Green': 'green',
-      'Pink': 'pink',
-      'Light Blue': 'lightblue',
-      'Brown': 'brown',
-      'Tan': 'tan',
-      'Khaki': 'khaki',
-      'Olive': 'olive',
-      'Maroon': 'maroon',
-      'Burgundy': 'burgundy',
-      'Silver': 'silver',
-      'Gold': 'gold',
-      'Floral Pink': 'floral-pink',
-      'Floral Blue': 'floral-blue', 
-      'Floral Yellow': 'floral-yellow'
-    };
-    
-    const colorSuffix = colorMap[selectedColor] || selectedColor.toLowerCase().replace(' ', '-');
+    const colorSuffix = selectedColor.toLowerCase().replace(/\s+/g, '-');
     
     // Try to load color-specific image, fallback to original if not available
-    return `/images/${baseImageName}-${colorSuffix}.jpg` || product.image;
+    return `/images/${baseImageName}-${colorSuffix}.jpg`;
+  };
+
+  // Function to get color display style
+  const getColorStyle = (color: string) => {
+    const colorMap: { [key: string]: string } = {
+      'White': '#FFFFFF',
+      'Black': '#000000',
+      'Navy': '#000080',
+      'Gray': '#808080',
+      'Grey': '#808080',
+      'Blue': '#0000FF',
+      'Red': '#FF0000',
+      'Green': '#008000',
+      'Pink': '#FFC0CB',
+      'Light Blue': '#ADD8E6',
+      'Brown': '#A52A2A',
+      'Tan': '#D2B48C',
+      'Khaki': '#F0E68C',
+      'Olive': '#808000',
+      'Maroon': '#800000',
+      'Burgundy': '#800020',
+      'Silver': '#C0C0C0',
+      'Gold': '#FFD700',
+      'Yellow': '#FFFF00',
+      'Orange': '#FFA500',
+      'Purple': '#800080',
+      'Violet': '#8A2BE2'
+    };
+    
+    return colorMap[color] || color.toLowerCase();
   };
 
   const discount = product.originalPrice 
@@ -144,18 +152,35 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
               {/* Color Selection */}
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-gray-900 mb-2">Color</h3>
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap gap-2">
                   {product.colors.map((color) => (
                     <button
                       key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`w-8 h-8 rounded-full border-2 transition-all ${
+                      onClick={() => {
+                        console.log('Color selected:', color);
+                        setSelectedColor(color);
+                      }}
+                      className={`w-10 h-10 rounded-full border-2 transition-all relative ${
                         selectedColor === color
-                          ? 'border-black scale-110'
+                          ? 'border-black scale-110 ring-2 ring-offset-2 ring-black'
                           : 'border-gray-300 hover:border-gray-400'
                       }`}
-                      style={{ backgroundColor: color.toLowerCase() }}
-                    />
+                      style={{ 
+                        backgroundColor: getColorStyle(color),
+                        border: color.toLowerCase() === 'white' ? '2px solid #e5e7eb' : undefined
+                      }}
+                      title={color}
+                    >
+                      {selectedColor === color && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className={`w-2 h-2 rounded-full ${
+                            color.toLowerCase() === 'white' || color.toLowerCase() === 'yellow' 
+                              ? 'bg-black' 
+                              : 'bg-white'
+                          }`} />
+                        </div>
+                      )}
+                    </button>
                   ))}
                 </div>
                 {selectedColor && (
