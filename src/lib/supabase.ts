@@ -1,22 +1,12 @@
+
 import { createClient } from '@supabase/supabase-js';
 
-// Get environment variables with fallbacks
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabaseUrl = "https://vwhrruvcjrytkeecrbuw.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3aHJydXZjanJ5dGtlZWNyYnV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg2NzMwNDMsImV4cCI6MjA2NDI0OTA0M30.XjE2dfEngx5C50_zqTvdnGOfPvto6Z996FQvN0cfA8A";
 
-// Log the environment variables for debugging
-console.log('Supabase URL:', supabaseUrl ? 'Set' : 'Missing');
-console.log('Supabase Anon Key:', supabaseAnonKey ? 'Set' : 'Missing');
+console.log('Supabase connected successfully');
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables. Please ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.');
-  console.log('Available env vars:', Object.keys(import.meta.env));
-}
-
-// Create a dummy client if env vars are missing to prevent app crash
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Helper function to get image URL from local folder
 export const getImageUrl = (imageId: string): string => {

@@ -1,15 +1,30 @@
 
-import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, DatabaseProduct, getImageUrl } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { Product } from '@/contexts/CartContext';
+
+interface DatabaseProduct {
+  id: string;
+  name: string;
+  price: number;
+  original_price?: number;
+  image: string;
+  image_id?: string;
+  category: string;
+  brand: string;
+  sizes: string[];
+  colors: string[];
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
 
 const transformDatabaseProduct = (dbProduct: DatabaseProduct): Product => ({
   id: dbProduct.id,
   name: dbProduct.name,
   price: dbProduct.price,
   originalPrice: dbProduct.original_price,
-  image: dbProduct.image_id ? getImageUrl(dbProduct.image_id) : dbProduct.image,
+  image: dbProduct.image,
   category: dbProduct.category,
   brand: dbProduct.brand,
   sizes: dbProduct.sizes,
@@ -18,26 +33,10 @@ const transformDatabaseProduct = (dbProduct: DatabaseProduct): Product => ({
 });
 
 export const useProducts = () => {
-  const [fallbackProducts, setFallbackProducts] = useState<Product[]>([]);
-
-  // Load fallback products from local data if Supabase is not available
-  useEffect(() => {
-    if (!supabase) {
-      import('@/data/products').then(({ products }) => {
-        setFallbackProducts(products);
-      });
-    }
-  }, []);
-
   const { data: products = [], isLoading, error } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
-      if (!supabase) {
-        console.log('Using fallback products data');
-        return fallbackProducts;
-      }
-
-      console.log('Fetching products from database');
+      console.log('Fetching products from Supabase database');
       const { data, error } = await supabase
         .from('products')
         .select('*')
@@ -48,9 +47,9 @@ export const useProducts = () => {
         throw error;
       }
 
+      console.log('Successfully fetched', data?.length, 'products from database');
       return data.map(transformDatabaseProduct);
     },
-    enabled: supabase ? true : fallbackProducts.length > 0,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -58,6 +57,6 @@ export const useProducts = () => {
     products,
     isLoading,
     error,
-    isUsingDatabase: !!supabase
+    isUsingDatabase: true
   };
 };
