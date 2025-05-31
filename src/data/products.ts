@@ -1,4 +1,3 @@
-
 import { Product } from '@/contexts/CartContext';
 
 export const products: Product[] = [
@@ -313,5 +312,173 @@ export const products: Product[] = [
     sizes: ['34B', '34C', '36B', '36C', '36D', '38B', '38C', '38D', '40C', '40D'],
     colors: ['White', 'Black', 'Nude'],
     description: 'Supportive maternity and nursing bra with easy-access clips and extra comfort.'
+  },
+  {
+    id: '27',
+    name: 'Boys Graphic T-Shirt',
+    price: 999,
+    originalPrice: 1499,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80',
+    category: 'Kids',
+    brand: 'Zidan',
+    sizes: ['4T', '6', '8', '10', '12', '14'],
+    colors: ['Blue', 'Red', 'Green', 'Black', 'White'],
+    description: 'Fun graphic t-shirt for boys with colorful designs. Made from soft cotton for all-day comfort.'
+  },
+  {
+    id: '28',
+    name: 'Girls Unicorn T-Shirt',
+    price: 999,
+    originalPrice: 1499,
+    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500&q=80',
+    category: 'Kids',
+    brand: 'Zidan',
+    sizes: ['4T', '6', '8', '10', '12', '14'],
+    colors: ['Pink', 'Purple', 'White', 'Lavender'],
+    description: 'Adorable unicorn t-shirt for girls with sparkly details. Perfect for everyday wear and play.'
+  },
+  {
+    id: '29',
+    name: 'Kids Denim Shorts',
+    price: 1299,
+    originalPrice: 1899,
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80',
+    category: 'Kids',
+    brand: 'Zidan',
+    sizes: ['4T', '6', '8', '10', '12', '14'],
+    colors: ['Blue', 'Light Blue', 'Black'],
+    description: 'Comfortable denim shorts for kids with adjustable waistband and multiple pockets.'
+  },
+  {
+    id: '30',
+    name: 'Yoga Leggings',
+    price: 1999,
+    originalPrice: 2799,
+    image: 'https://images.unsplash.com/photo-1506629905607-45ea82745e65?w=500&q=80',
+    category: 'Activewear',
+    brand: 'Zidan',
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    colors: ['Black', 'Navy', 'Gray', 'Purple'],
+    description: 'High-waisted yoga leggings with moisture-wicking fabric and four-way stretch.'
+  },
+  {
+    id: '31',
+    name: 'Athletic Tank Top',
+    price: 1299,
+    originalPrice: 1899,
+    image: 'https://images.unsplash.com/photo-1571019613914-85f342c6a11e?w=500&q=80',
+    category: 'Activewear',
+    brand: 'Zidan',
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    colors: ['White', 'Black', 'Pink', 'Blue'],
+    description: 'Breathable athletic tank top with quick-dry technology and built-in support.'
+  },
+  {
+    id: '32',
+    name: 'Running Shorts',
+    price: 1599,
+    originalPrice: 2299,
+    image: 'https://images.unsplash.com/photo-1506629905607-45ea82745e65?w=500&q=80',
+    category: 'Activewear',
+    brand: 'Zidan',
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    colors: ['Black', 'Navy', 'Gray', 'Red'],
+    description: 'Lightweight running shorts with inner compression and side pockets for storage.'
+  },
+  {
+    id: '33',
+    name: 'Leather Belt',
+    price: 1999,
+    originalPrice: 2999,
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL'],
+    colors: ['Black', 'Brown', 'Tan'],
+    description: 'Genuine leather belt with classic buckle design. Perfect for formal and casual wear.'
+  },
+  {
+    id: '34',
+    name: 'Canvas Backpack',
+    price: 2499,
+    originalPrice: 3499,
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['One Size'],
+    colors: ['Black', 'Navy', 'Gray', 'Khaki'],
+    description: 'Durable canvas backpack with multiple compartments and padded laptop sleeve.'
+  },
+  {
+    id: '35',
+    name: 'Silk Scarf',
+    price: 1899,
+    originalPrice: 2699,
+    image: 'https://images.unsplash.com/photo-1584370848010-d7fe6bc6ce2e?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['One Size'],
+    colors: ['Red', 'Blue', 'Pink', 'Green', 'Gold'],
+    description: 'Luxurious silk scarf with elegant patterns. Perfect accessory for any outfit.'
+  },
+  {
+    id: '36',
+    name: 'Fleece Sweatshirt',
+    price: 2299,
+    originalPrice: 3199,
+    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80',
+    category: 'T-Shirts',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    colors: ['Gray', 'Black', 'Navy', 'Burgundy'],
+    description: 'Cozy fleece sweatshirt perfect for cool weather. Soft interior lining for maximum comfort.'
+  },
+  {
+    id: '37',
+    name: 'Formal Trousers',
+    price: 3299,
+    originalPrice: 4499,
+    image: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&q=80',
+    category: 'Jeans',
+    brand: 'Zidan',
+    sizes: ['28', '30', '32', '34', '36', '38'],
+    colors: ['Black', 'Navy', 'Gray', 'Charcoal'],
+    description: 'Tailored formal trousers with perfect fit and wrinkle-resistant fabric.'
+  },
+  {
+    id: '38',
+    name: 'Casual Loafers',
+    price: 3999,
+    originalPrice: 5499,
+    image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&q=80',
+    category: 'Shoes',
+    brand: 'Zidan',
+    sizes: ['6', '7', '8', '9', '10', '11', '12'],
+    colors: ['Brown', 'Black', 'Tan'],
+    description: 'Comfortable leather loafers perfect for casual and semi-formal occasions.'
+  },
+  {
+    id: '39',
+    name: 'Cotton Socks Pack',
+    price: 699,
+    originalPrice: 999,
+    image: 'https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['S', 'M', 'L'],
+    colors: ['White', 'Black', 'Gray', 'Navy'],
+    description: 'Comfortable cotton socks with cushioned sole and moisture-wicking properties. Pack of 6.'
+  },
+  {
+    id: '40',
+    name: 'Winter Beanie',
+    price: 899,
+    originalPrice: 1299,
+    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&q=80',
+    category: 'Accessories',
+    brand: 'Zidan',
+    sizes: ['One Size'],
+    colors: ['Black', 'Gray', 'Navy', 'Red', 'Green'],
+    description: 'Warm winter beanie made from soft acrylic yarn. Perfect for cold weather.'
   }
 ];
