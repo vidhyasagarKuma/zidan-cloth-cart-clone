@@ -57,6 +57,18 @@ const Index = () => {
     setSearchQuery(search);
   };
 
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById('products-section');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleExploreClick = () => {
+    setSelectedCategory('All');
+    scrollToProducts();
+  };
+
   // Hero carousel images
   const heroImages = [
     {
@@ -180,7 +192,7 @@ const Index = () => {
                             
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                               <Button 
-                                onClick={() => setSelectedCategory('All')}
+                                onClick={handleExploreClick}
                                 size="lg"
                                 className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-full font-medium text-lg group"
                               >
@@ -248,7 +260,7 @@ const Index = () => {
             </section>
 
             {/* Products Section */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <section id="products-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12 space-y-6 lg:space-y-0">
                 <div className="space-y-2">
                   <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
