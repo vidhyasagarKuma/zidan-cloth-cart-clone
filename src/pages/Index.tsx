@@ -9,12 +9,16 @@ import ProductModal from '@/components/ProductModal';
 import { Toaster } from '@/components/ui/toaster';
 import { Product } from '@/contexts/CartContext';
 import { useProducts } from '@/hooks/useProducts';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Sparkles, ArrowRight, Star, Shield, Truck, HeartHandshake } from 'lucide-react';
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
 
   const { products, isLoading, error, isUsingDatabase } = useProducts();
 
@@ -52,10 +56,16 @@ const Index = () => {
       <AuthProvider>
         <WishlistProvider>
           <CartProvider>
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading products...</p>
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center">
+              <div className="text-center space-y-4">
+                <div className="relative">
+                  <div className="animate-spin rounded-full h-16 w-16 border-2 border-gray-200 border-t-black mx-auto"></div>
+                  <Sparkles className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-black animate-pulse" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-lg font-medium text-gray-900">Loading your premium collection</p>
+                  <p className="text-sm text-gray-500">Curating the finest fashion pieces for you</p>
+                </div>
               </div>
             </div>
           </CartProvider>
@@ -69,15 +79,22 @@ const Index = () => {
       <AuthProvider>
         <WishlistProvider>
           <CartProvider>
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-red-600 mb-4">Error loading products: {error.message}</p>
-                <button 
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center">
+              <div className="text-center space-y-6 max-w-md mx-auto px-4">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                  <Shield className="h-8 w-8 text-red-600" />
+                </div>
+                <div className="space-y-2">
+                  <h2 className="text-xl font-semibold text-gray-900">Something went wrong</h2>
+                  <p className="text-gray-600">We couldn't load the collection. Please try again.</p>
+                  <p className="text-sm text-red-600">{error.message}</p>
+                </div>
+                <Button 
                   onClick={() => window.location.reload()}
-                  className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+                  className="bg-black text-white hover:bg-gray-800 px-6 py-2"
                 >
-                  Retry
-                </button>
+                  Try Again
+                </Button>
               </div>
             </div>
           </CartProvider>
@@ -90,44 +107,120 @@ const Index = () => {
     <AuthProvider>
       <WishlistProvider>
         <CartProvider>
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen bg-white">
             <Header 
               onCategoryChange={setSelectedCategory}
               onSearchChange={handleSearchChange}
             />
             
             {/* Hero Section */}
-            <section className="bg-gradient-to-r from-gray-900 to-black text-white py-20">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 className="text-4xl sm:text-6xl font-bold mb-6">
-                  Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">ZIDAN</span>
-                </h1>
-                <p className="text-xl sm:text-2xl text-gray-300 mb-8">
-                  Discover premium fashion that defines your style
-                </p>
-                <button 
-                  onClick={() => setSelectedCategory('All')}
-                  className="bg-white text-black px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
-                >
-                  Shop Now
-                </button>
-                {!isUsingDatabase && (
-                  <div className="mt-4 text-sm text-yellow-300">
-                    Running in demo mode with sample data
+            <section className="relative bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white overflow-hidden">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.03"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+              <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+                <div className="text-center space-y-8">
+                  <div className="space-y-4">
+                    <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
+                      <Sparkles className="h-4 w-4 text-yellow-400" />
+                      <span className="text-sm font-medium">Premium Fashion Collection</span>
+                    </div>
+                    <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight">
+                      <span className="block">Welcome to</span>
+                      <span className="block bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+                        ZIDAN
+                      </span>
+                    </h1>
+                    <p className="max-w-2xl mx-auto text-xl sm:text-2xl text-gray-300 leading-relaxed">
+                      Discover premium fashion that defines your style. 
+                      <span className="block mt-2 text-lg opacity-90">Curated collections for the modern individual.</span>
+                    </p>
                   </div>
-                )}
+                  
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <Button 
+                      onClick={() => setSelectedCategory('All')}
+                      size="lg"
+                      className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-full font-medium text-lg group"
+                    >
+                      Explore Collection
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      size="lg"
+                      className="border-white text-white hover:bg-white hover:text-black px-8 py-4 rounded-full font-medium text-lg"
+                    >
+                      View Lookbook
+                    </Button>
+                  </div>
+
+                  {!isUsingDatabase && (
+                    <div className="inline-flex items-center space-x-2 bg-yellow-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-yellow-500/30">
+                      <Star className="h-4 w-4 text-yellow-400" />
+                      <span className="text-sm font-medium text-yellow-200">Demo Mode - Sample Data</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Decorative Elements */}
+              <div className="absolute top-20 left-10 w-20 h-20 border border-white/20 rounded-full animate-pulse"></div>
+              <div className="absolute bottom-20 right-10 w-32 h-32 border border-white/10 rounded-full animate-pulse delay-1000"></div>
+              <div className="absolute top-1/2 left-20 w-2 h-2 bg-white/40 rounded-full animate-ping delay-500"></div>
+            </section>
+
+            {/* Features Section */}
+            <section className="py-16 bg-gradient-to-r from-gray-50 to-white">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="text-center space-y-4 group">
+                    <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                      <Truck className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900">Free Shipping</h3>
+                    <p className="text-gray-600">Complimentary shipping on all orders over ₹2,000</p>
+                  </div>
+                  <div className="text-center space-y-4 group">
+                    <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                      <Shield className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900">Quality Guarantee</h3>
+                    <p className="text-gray-600">Premium materials and craftsmanship in every piece</p>
+                  </div>
+                  <div className="text-center space-y-4 group">
+                    <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                      <HeartHandshake className="h-8 w-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900">Easy Returns</h3>
+                    <p className="text-gray-600">30-day hassle-free returns and exchanges</p>
+                  </div>
+                </div>
               </div>
             </section>
 
-            {/* Filters and Products */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 sm:mb-0">
-                  {searchQuery ? `Search results for "${searchQuery}"` : selectedCategory === 'All' ? 'All Products' : selectedCategory}
-                </h2>
-                <p className="text-gray-600">
-                  {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
-                </p>
+            {/* Products Section */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-12 space-y-6 lg:space-y-0">
+                <div className="space-y-2">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                    {searchQuery ? (
+                      <>Search results for <span className="text-black">"{searchQuery}"</span></>
+                    ) : selectedCategory === 'All' ? (
+                      'Our Premium Collection'
+                    ) : (
+                      selectedCategory
+                    )}
+                  </h2>
+                  <p className="text-gray-600 text-lg">
+                    {filteredProducts.length} {filteredProducts.length === 1 ? 'piece' : 'pieces'} available
+                  </p>
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <Star className="h-5 w-5 text-yellow-500 fill-current" />
+                    <span className="text-sm font-medium text-gray-700">4.8 Average Rating</span>
+                  </div>
+                </div>
               </div>
 
               <ProductGrid 
@@ -137,65 +230,104 @@ const Index = () => {
             </section>
 
             {/* Newsletter Section */}
-            <section className="bg-black text-white py-16">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 className="text-3xl font-bold mb-4">Stay in Style</h2>
-                <p className="text-gray-300 mb-8">
-                  Subscribe to our newsletter for exclusive offers and latest fashion trends
-                </p>
-                <div className="flex flex-col sm:flex-row max-w-md mx-auto">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 rounded-lg sm:rounded-r-none text-black mb-4 sm:mb-0"
-                  />
-                  <button className="bg-white text-black px-6 py-3 rounded-lg sm:rounded-l-none font-medium hover:bg-gray-100 transition-colors">
-                    Subscribe
-                  </button>
+            <section className="bg-gradient-to-r from-gray-900 to-black text-white py-24">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-4xl sm:text-5xl font-bold">Stay in Style</h2>
+                  <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                    Be the first to know about our latest collections, exclusive offers, 
+                    and fashion insights from our curators.
+                  </p>
+                </div>
+                
+                <div className="max-w-md mx-auto">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Input
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-gray-400 rounded-full px-6 py-4"
+                    />
+                    <Button 
+                      className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-full font-medium whitespace-nowrap"
+                    >
+                      Subscribe
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-400 mt-3">
+                    Join 50,000+ fashion enthusiasts. Unsubscribe anytime.
+                  </p>
                 </div>
               </div>
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-white py-12">
+            <footer className="bg-gray-900 text-white py-16">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                  <div>
-                    <h3 className="text-xl font-bold mb-4">ZIDAN</h3>
-                    <p className="text-gray-400">
-                      Premium fashion brand delivering quality and style since inception.
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold">ZIDAN</h3>
+                    <p className="text-gray-400 leading-relaxed">
+                      Premium fashion brand delivering quality and style since inception. 
+                      Crafting timeless pieces for the modern wardrobe.
                     </p>
+                    <div className="flex space-x-4">
+                      <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
+                        <span className="text-sm font-bold">f</span>
+                      </div>
+                      <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
+                        <span className="text-sm font-bold">ig</span>
+                      </div>
+                      <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
+                        <span className="text-sm font-bold">tw</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-medium mb-4">Shop</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li><a href="#" className="hover:text-white transition-colors">Men</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Women</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Accessories</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Sale</a></li>
+                  
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold">Shop</h4>
+                    <ul className="space-y-3">
+                      {['Men', 'Women', 'Accessories', 'New Arrivals', 'Sale'].map((item) => (
+                        <li key={item}>
+                          <a href="#" className="text-gray-400 hover:text-white transition-colors">{item}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
-                  <div>
-                    <h4 className="font-medium mb-4">Support</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Size Guide</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Returns</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                  
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold">Support</h4>
+                    <ul className="space-y-3">
+                      {['Contact Us', 'Size Guide', 'Returns & Exchanges', 'Shipping Info', 'FAQ'].map((item) => (
+                        <li key={item}>
+                          <a href="#" className="text-gray-400 hover:text-white transition-colors">{item}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
-                  <div>
-                    <h4 className="font-medium mb-4">Connect</h4>
-                    <ul className="space-y-2 text-gray-400">
-                      <li><a href="#" className="hover:text-white transition-colors">Instagram</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Facebook</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
-                      <li><a href="#" className="hover:text-white transition-colors">YouTube</a></li>
+                  
+                  <div className="space-y-4">
+                    <h4 className="text-lg font-semibold">Company</h4>
+                    <ul className="space-y-3">
+                      {['About Us', 'Careers', 'Press', 'Sustainability', 'Privacy Policy'].map((item) => (
+                        <li key={item}>
+                          <a href="#" className="text-gray-400 hover:text-white transition-colors">{item}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
-                <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                  <p>&copy; 2024 Zidan. All rights reserved.</p>
+                
+                <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                  <p className="text-gray-400 text-sm">
+                    &copy; 2024 Zidan. All rights reserved. Made with ♥ for fashion lovers.
+                  </p>
+                  <div className="flex items-center space-x-6 text-sm text-gray-400">
+                    <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" className="hover:text-white transition-colors">Cookies</a>
+                  </div>
                 </div>
               </div>
             </footer>
