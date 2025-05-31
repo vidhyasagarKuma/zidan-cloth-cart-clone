@@ -40,6 +40,17 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
     onSearchChange('');
   };
 
+  const handleCategoryClick = (category: string) => {
+    console.log('Category clicked:', category);
+    onCategoryChange(category);
+    
+    // Scroll to products section
+    const productsSection = document.getElementById('products-section');
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const defaultAddress = addresses.find(addr => addr.isDefault);
 
   return (
@@ -57,7 +68,7 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
               {categories.map((category) => (
                 <button
                   key={category}
-                  onClick={() => onCategoryChange(category)}
+                  onClick={() => handleCategoryClick(category)}
                   className="text-gray-600 hover:text-black transition-colors font-medium"
                 >
                   {category}
@@ -214,7 +225,7 @@ const Header = ({ onCategoryChange, onSearchChange }: HeaderProps) => {
                   <button
                     key={category}
                     onClick={() => {
-                      onCategoryChange(category);
+                      handleCategoryClick(category);
                       setIsMobileMenuOpen(false);
                     }}
                     className="text-left px-3 py-2 text-gray-600 hover:text-black hover:bg-gray-50 rounded transition-colors"
