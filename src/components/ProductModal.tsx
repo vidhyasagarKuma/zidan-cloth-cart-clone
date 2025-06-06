@@ -82,10 +82,6 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
     return colorMap[color] || color.toLowerCase();
   };
 
-  const discount = product.originalPrice 
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
-
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
@@ -124,19 +120,6 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                 >
                   <X className="w-6 h-6" />
                 </button>
-              </div>
-
-              {/* Price */}
-              <div className="flex items-center space-x-3 mb-4">
-                <span className="text-2xl font-bold text-gray-900">₹{product.price}</span>
-                {product.originalPrice && (
-                  <>
-                    <span className="text-lg text-gray-500 line-through">₹{product.originalPrice}</span>
-                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                      -{discount}% OFF
-                    </span>
-                  </>
-                )}
               </div>
 
               {/* Description */}

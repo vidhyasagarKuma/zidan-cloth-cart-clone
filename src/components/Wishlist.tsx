@@ -61,7 +61,6 @@ const Wishlist = ({ isOpen, onClose }: WishlistProps) => {
                   <div className="flex-1">
                     <h4 className="font-medium">{item.name}</h4>
                     <p className="text-sm text-gray-600">{item.brand}</p>
-                    <p className="font-bold">${item.price}</p>
                   </div>
                   <div className="flex gap-2">
                     <Button

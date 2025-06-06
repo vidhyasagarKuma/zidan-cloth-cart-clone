@@ -56,11 +56,6 @@ const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
         >
           <Heart className={`w-5 h-5 ${inWishlist ? 'fill-current' : ''}`} />
         </button>
-        {product.originalPrice && (
-          <div className="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded text-sm font-medium">
-            Sale
-          </div>
-        )}
       </div>
       
       <div className="p-4">
@@ -70,15 +65,6 @@ const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
         <p className="text-gray-600 text-sm mb-2">{product.brand}</p>
         
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-black">${product.price}</span>
-            {product.originalPrice && (
-              <span className="text-sm text-gray-500 line-through">
-                ${product.originalPrice}
-              </span>
-            )}
-          </div>
-          
           <div className="flex space-x-1">
             {product.colors.slice(0, 3).map((color, index) => (
               <div
