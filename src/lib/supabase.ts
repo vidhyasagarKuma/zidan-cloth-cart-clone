@@ -8,15 +8,28 @@ console.log('Supabase connected successfully');
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Helper function to get image URL from local folder
+// Helper function to get image URL from local folder or fallback
 export const getImageUrl = (imageId: string): string => {
   if (!imageId) {
     // Fallback to placeholder image if no imageId
-    return `https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80`;
+    return `/images/placeholder.jpg`;
+  }
+  
+  // Check if it's already a full path
+  if (imageId.startsWith('/images/') || imageId.startsWith('/src/images/')) {
+    return imageId;
   }
   
   // Use images from public/images folder
   return `/images/${imageId}`;
+};
+
+// Helper function to handle image errors with fallback
+export const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+  const target = event.target as HTMLImageElement;
+  // Fallback to a default placeholder image
+  target.src = '/images/placeholder.jpg';
+  console.warn('Image failed to load:', target.src);
 };
 
 // Database types

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { Product, useCart } from '@/contexts/CartContext';
+import { handleImageError } from '@/lib/supabase';
 
 interface ProductModalProps {
   product: Product | null;
@@ -33,14 +34,18 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
 
   // Function to get image based on selected color
   const getColorBasedImage = () => {
-    if (!selectedColor) return product.image;
+    if (!selectedColor || !product.image.startsWith('/images/')) {
+      return product.image;
+    }
     
-    // Create color-specific image URLs based on product image and selected color
-    const baseImageName = product.image.split('/').pop()?.split('.')[0] || 'default';
+    // Extract base image name from the path
+    const imagePath = product.image.replace('/images/', '');
+    const baseImageName = imagePath.split('.')[0];
+    const extension = imagePath.split('.').pop() || 'jpg';
     const colorSuffix = selectedColor.toLowerCase().replace(/\s+/g, '-');
     
     // Try to load color-specific image, fallback to original if not available
-    return `/images/${baseImageName}-${colorSuffix}.jpg`;
+    return `/images/${baseImageName}-${colorSuffix}.${extension}`;
   };
 
   // Function to get color display style
@@ -67,7 +72,11 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
       'Yellow': '#FFFF00',
       'Orange': '#FFA500',
       'Purple': '#800080',
-      'Violet': '#8A2BE2'
+      'Violet': '#8A2BE2',
+      'Nude': '#F5E6D3',
+      'Champagne': '#F7E7CE',
+      'Lavender': '#E6E6FA',
+      'Charcoal': '#36454F'
     };
     
     return colorMap[color] || color.toLowerCase();
@@ -93,7 +102,11 @@ const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
                 onError={(e) => {
                   // Fallback to original image if color-specific image fails to load
                   const target = e.target as HTMLImageElement;
-                  target.src = product.image;
+                  if (target.src !== product.image) {
+                    target.src = product.image;
+                  } else {
+                    handleImageError(e);
+                  }
                 }}
               />
             </div>

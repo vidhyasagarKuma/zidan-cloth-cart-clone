@@ -4,6 +4,7 @@ import { Heart } from 'lucide-react';
 import { Product } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useToast } from '@/hooks/use-toast';
+import { handleImageError } from '@/lib/supabase';
 
 interface ProductCardProps {
   product: Product;
@@ -43,6 +44,7 @@ const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
           src={product.image}
           alt={product.name}
           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={handleImageError}
         />
         <button
           onClick={handleWishlistToggle}
