@@ -208,12 +208,10 @@ const Index = () => {
                               </Button>
                             </div>
 
-                            {!isUsingDatabase && (
-                              <div className="inline-flex items-center space-x-2 bg-yellow-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-yellow-500/30">
-                                <Star className="h-4 w-4 text-yellow-400" />
-                                <span className="text-sm font-medium text-yellow-200">Demo Mode - Sample Data</span>
-                              </div>
-                            )}
+                            <div className="inline-flex items-center space-x-2 bg-green-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-green-500/30">
+                              <Star className="h-4 w-4 text-green-400" />
+                              <span className="text-sm font-medium text-green-200">Static Collection - No Database Required</span>
+                            </div>
                           </div>
                         </div>
                         

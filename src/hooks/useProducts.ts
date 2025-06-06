@@ -1,62 +1,31 @@
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useMemo } from 'react';
 import { Product } from '@/contexts/CartContext';
+import { products as staticProducts } from '@/data/products';
 
-interface DatabaseProduct {
-  id: string;
-  name: string;
-  price: number;
-  original_price?: number;
-  image: string;
-  image_id?: string;
-  category: string;
-  brand: string;
-  sizes: string[];
-  colors: string[];
-  description: string;
-  created_at: string;
-  updated_at: string;
-}
-
-const transformDatabaseProduct = (dbProduct: DatabaseProduct): Product => ({
-  id: dbProduct.id,
-  name: dbProduct.name,
-  price: dbProduct.price,
-  originalPrice: dbProduct.original_price,
-  image: dbProduct.image,
-  category: dbProduct.category,
-  brand: dbProduct.brand,
-  sizes: dbProduct.sizes,
-  colors: dbProduct.colors,
-  description: dbProduct.description
+const transformStaticProduct = (product: Product): Product => ({
+  id: product.id,
+  name: product.name,
+  price: product.price,
+  originalPrice: product.originalPrice,
+  image: product.image,
+  category: product.category,
+  brand: product.brand,
+  sizes: product.sizes,
+  colors: product.colors,
+  description: product.description
 });
 
 export const useProducts = () => {
-  const { data: products = [], isLoading, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => {
-      console.log('Fetching products from Supabase database');
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching products:', error);
-        throw error;
-      }
-
-      console.log('Successfully fetched', data?.length, 'products from database');
-      return data.map(transformDatabaseProduct);
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
+  const products = useMemo(() => {
+    console.log('Using static products data');
+    return staticProducts.map(transformStaticProduct);
+  }, []);
 
   return {
     products,
-    isLoading,
-    error,
-    isUsingDatabase: true
+    isLoading: false,
+    error: null,
+    isUsingDatabase: false
   };
 };
